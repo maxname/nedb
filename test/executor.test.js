@@ -5,7 +5,7 @@ var should = require('chai').should()
   , path = require('path')
   , _ = require('underscore')
   , async = require('async')
-  , model = require('../lib/model')
+  , model = require('../lib/done/model')
   , Datastore = require('../lib/datastore')
   , Persistence = require('../lib/persistence')
   ;

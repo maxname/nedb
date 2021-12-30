@@ -5,10 +5,10 @@ var should = require('chai').should()
   , path = require('path')
   , _ = require('underscore')
   , async = require('async')
-  , model = require('../lib/model')
+  , model = require('../lib/done/model')
   , Datastore = require('../lib/datastore')
   , Persistence = require('../lib/persistence')
-  , Cursor = require('../lib/cursor')
+  , Cursor = require('../lib/done/cursor')
   ;
 
 
@@ -342,9 +342,9 @@ describe('Cursor', function () {
         }
       ], done);
     });
-    
+
     it('Using too big a limit and a skip with sort', function (done) {
-      var i;    
+      var i;
       async.waterfall([
         function (cb) {
           var cursor = new Cursor(d);
@@ -361,7 +361,7 @@ describe('Cursor', function () {
     });
 
     it('Using too big a skip with sort should return no result', function (done) {
-      var i;    
+      var i;
       async.waterfall([
         function (cb) {
           var cursor = new Cursor(d);
@@ -397,7 +397,7 @@ describe('Cursor', function () {
         }
       ], done);
     });
-    
+
     it('Sorting strings', function (done) {
       async.waterfall([
         function (cb) {
@@ -409,7 +409,7 @@ describe('Cursor', function () {
                 d.insert({ name: 'sue' }, function () {
                   return cb();
                 });
-              });            
+              });
             });
           });
         }
@@ -435,10 +435,10 @@ describe('Cursor', function () {
         }
       ], done);
     });
-    
+
     it('Sorting nested fields with dates', function (done) {
       var doc1, doc2, doc3;
-      
+
       async.waterfall([
         function (cb) {
           d.remove({}, { multi: true }, function (err) {
@@ -452,7 +452,7 @@ describe('Cursor', function () {
                   doc3 = _doc3;
                   return cb();
                 });
-              });            
+              });
             });
           });
         }
@@ -478,8 +478,8 @@ describe('Cursor', function () {
         }
       ], done);
     });
-    
-    it('Sorting when some fields are undefined', function (done) {      
+
+    it('Sorting when some fields are undefined', function (done) {
       async.waterfall([
         function (cb) {
           d.remove({}, { multi: true }, function (err) {
@@ -492,7 +492,7 @@ describe('Cursor', function () {
                     return cb();
                   });
                 });
-              });            
+              });
             });
           });
         }
@@ -524,8 +524,8 @@ describe('Cursor', function () {
         }
       ], done);
     });
-    
-    it('Sorting when all fields are undefined', function (done) {      
+
+    it('Sorting when all fields are undefined', function (done) {
       async.waterfall([
         function (cb) {
           d.remove({}, { multi: true }, function (err) {
@@ -536,7 +536,7 @@ describe('Cursor', function () {
                 d.insert({ name: 'sue' }, function () {
                   return cb();
                 });
-              });            
+              });
             });
           });
         }
@@ -572,7 +572,7 @@ describe('Cursor', function () {
                     });
                   });
                 });
-              });            
+              });
             });
           });
         }
@@ -580,7 +580,7 @@ describe('Cursor', function () {
           var cursor = new Cursor(d, {});
           cursor.sort({ name: 1, age: -1 }).exec(function (err, docs) {
             docs.length.should.equal(5);
-            
+
             docs[0].nid.should.equal(2);
             docs[1].nid.should.equal(1);
             docs[2].nid.should.equal(5);
@@ -593,7 +593,7 @@ describe('Cursor', function () {
           var cursor = new Cursor(d, {});
           cursor.sort({ name: 1, age: 1 }).exec(function (err, docs) {
             docs.length.should.equal(5);
-            
+
             docs[0].nid.should.equal(2);
             docs[1].nid.should.equal(5);
             docs[2].nid.should.equal(1);
@@ -606,7 +606,7 @@ describe('Cursor', function () {
           var cursor = new Cursor(d, {});
           cursor.sort({ age: 1, name: 1 }).exec(function (err, docs) {
             docs.length.should.equal(5);
-            
+
             docs[0].nid.should.equal(3);
             docs[1].nid.should.equal(4);
             docs[2].nid.should.equal(5);
@@ -619,7 +619,7 @@ describe('Cursor', function () {
           var cursor = new Cursor(d, {});
           cursor.sort({ age: 1, name: -1 }).exec(function (err, docs) {
             docs.length.should.equal(5);
-            
+
             docs[0].nid.should.equal(3);
             docs[1].nid.should.equal(4);
             docs[2].nid.should.equal(5);
@@ -635,12 +635,12 @@ describe('Cursor', function () {
         , companies = [ 'acme', 'milkman', 'zoinks' ]
         , entities = []
         ;
-    
+
       async.waterfall([
         function (cb) {
           d.remove({}, { multi: true }, function (err) {
             if (err) { return cb(err); }
-            
+
             id = 1;
             for (i = 0; i < companies.length; i++) {
               for (j = 5; j <= 100; j += 5) {
